@@ -3,7 +3,12 @@
 #include "sched.h"
 #include "sched_cfg.h"
 
+
+/*** APPLICATION CODE EXAMPLE ***/
+
 #define DELAY 256
+
+extern void delay(u32 counts);
 
 void delay(u32 counts)
 {
@@ -50,6 +55,9 @@ FUN(TOTO_STATE_29, TOTO_STATE_30)
 FUN(TOTO_STATE_30, TOTO_STATE_31)
 LAST_FUN(TOTO_STATE_31)
 
+/*** END OF APPLICATION CODE EXAMPLE ***/
+
+/*! Array of pointer to functions associated with tasks */
 const SCHED_action_T SCHED_actions[SCHED_STATES_NUM] = 
 {
    &state_TOTO_STATE_00,
@@ -85,4 +93,3 @@ const SCHED_action_T SCHED_actions[SCHED_STATES_NUM] =
    &state_TOTO_STATE_30,
    &state_TOTO_STATE_31,
 };
-

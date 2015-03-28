@@ -12,7 +12,15 @@ static u32 sched_states_activation = 0x00;
 #error "SCHED module is optimized for 16 or 32 states"
 #endif
 
-extern void SCHED_ActivateAllTasks (void)  {sched_states_activation = ((1<<(SCHED_STATES_NUM)) - 1);}
+extern void SCHED_ActivateAllTasks (void)
+{
+   u16 i;
+   for (i=0; i<SCHED_STATES_NUM; i++)
+   {
+      sched_states_activation += (1<<i);
+   }
+}
+
 extern void SCHED_TerminateAllTasks(void)  {sched_states_activation = 0;}
 extern bool SCHED_IsAnyTaskActive  (void)  {return (sched_states_activation != 0);}
 

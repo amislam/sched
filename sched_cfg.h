@@ -3,8 +3,13 @@
 
 #include "sched.h"
 
+/*! Number of tasks */
 #define SCHED_STATES_NUM 32
+
+/*! function pointer type */
 typedef void (* SCHED_action_T)(void);
+
+/*! enum for states identifiers */
 typedef enum {
    TOTO_STATE_00=0,
    TOTO_STATE_01,
@@ -40,10 +45,12 @@ typedef enum {
    TOTO_STATE_31,
 } sched_state_T;
 
+/*! array of function pointer associated to each task */
 extern const SCHED_action_T SCHED_actions[SCHED_STATES_NUM];
 
 extern void delay(u32 counts);
 
+/*! Exception handler for SCHED module */
 #define SCHED_Through_Exception(errorn)
 
 #endif /* _SCHED_CFG_H_ */
