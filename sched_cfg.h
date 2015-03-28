@@ -53,5 +53,31 @@ extern void delay(u32 counts);
 /*! Exception handler for SCHED module */
 #define SCHED_Through_Exception(errorn)
 
+/*! if measurements are enaled; user shall define
+**  preTaskHook, postTaskHook, and the variables
+**  needed to measure tasks duration.
+**/
+#define SCHED_MEASUREMENTS_ENABLED
+#ifdef SCHED_MEASUREMENTS_ENABLED
+/*! This should be replaced by a TCNT or something */
+#define clock() 232
+extern u16 SCHED_TaskDuration[SCHED_STATES_NUM];
+extern u16 SCHED_preTaskTime;
+#define SCHED_preTaskHook(task_id)  do{SCHED_preTaskTime = clock();} while(0)
+#define SCHED_postTaskHook(task_id)           \
+do{                                           \
+   u16 duration;                              \
+   duration = (clock()-SCHED_preTaskTime);    \
+   if(duration > SCHED_TaskDuration[task_id]) \
+   {                                          \
+      SCHED_TaskDuration[task_id] = clock();  \
+   }                                          \
+}while(0)
+
+#else
+#define SCHED_preTaskHook(task_id)
+#define SCHED_postTaskHook(task_id)
+#endif
+
 #endif /* _SCHED_CFG_H_ */
 
