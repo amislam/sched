@@ -3,6 +3,12 @@
 #include "sched.h"
 #include "sched_cfg.h"
 
+/*! Variables used for tasks duration measurements */
+#ifdef SCHED_MEASUREMENTS_ENABLED
+u16 SCHED_TaskDuration[SCHED_STATES_NUM]={0};
+u16 SCHED_preTaskTime;
+#endif
+
 #define DELAY 256
 
 void delay(u32 counts)

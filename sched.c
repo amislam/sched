@@ -67,7 +67,9 @@ extern void SCHED_main(void)
        /* if current state is active, call its handler */
        if(sched_states_activation & (1 << current_state))
        {
+          SCHED_preTaskHook(current_state);
           SCHED_actions[current_state]();
+          SCHED_postTaskHook(current_state);
           hit = 1;
        }
 
