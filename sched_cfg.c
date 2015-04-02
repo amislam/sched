@@ -10,16 +10,9 @@ u16 SCHED_preTaskTime;
 #endif
 
 /*** APPLICATION CODE EXAMPLE ***/
-#define DELAY 256
 
-void delay(u32 counts)
-{
-   u32 i;
-   for(i=0;i<counts;i++);
-}
-
-#define FUN(current, next) void state_##current(void) {delay(DELAY); SCHED_ActivateTask(next); SCHED_TerminateTask(current); }
-#define LAST_FUN(current)  void state_##current(void) {delay(DELAY); SCHED_TerminateTask(current); }
+#define FUN(current, next) void state_##current(void) {printf("Task #: %d\n", current); SCHED_ActivateTask(next); SCHED_TerminateTask(); }
+#define LAST_FUN(current)  void state_##current(void) {printf("Task #: %d\n", current); SCHED_TerminateTask(); }
 
 FUN(TOTO_STATE_00, TOTO_STATE_01)
 FUN(TOTO_STATE_01, TOTO_STATE_02)
@@ -95,3 +88,4 @@ const SCHED_action_T SCHED_actions[SCHED_STATES_NUM] =
    &state_TOTO_STATE_30,
    &state_TOTO_STATE_31,
 };
+

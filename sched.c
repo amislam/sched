@@ -1,6 +1,12 @@
+/*****************************************************************************/
+/*! Module: SCHED                                                            */
+/*****************************************************************************/
 #include "sched.h"
 #include "sched_cfg.h"
 #include "std_types.h"
+
+static sched_state_T active_state  = 0;
+static sched_state_T current_state = 0;
 
 #if (SCHED_STATES_NUM < 9)
 static u8  sched_states_activation = 0x00;
@@ -36,16 +42,9 @@ extern void SCHED_ActivateTask(sched_state_T state_id)
    }
 }
 
-extern void SCHED_TerminateTask(sched_state_T state_id)
+extern void SCHED_TerminateTask(void)
 {
-   if(state_id < SCHED_STATES_NUM)
-   {
-      sched_states_activation &= (~(1 << state_id));
-   }
-   else
-   {
-      SCHED_Through_Exception(SCHED_INVALID_TASK_ID);
-   }
+   sched_states_activation &= (~(1 << active_state));
 }
 
 extern bool SCHED_IsTaskActive(sched_state_T state_id)
@@ -64,9 +63,8 @@ extern bool SCHED_IsTaskActive(sched_state_T state_id)
 
 extern void SCHED_main(void)
 {
-   static sched_state_T current_state = 0;
-   u8     index;
-   bool   hit;
+   u8   index;
+   bool hit;
 
    hit = 0;
 
@@ -75,6 +73,7 @@ extern void SCHED_main(void)
        /* if current state is active, call its handler */
        if(sched_states_activation & (1 << current_state))
        {
+          active_state = current_state;
           SCHED_preTaskHook(current_state);
           SCHED_actions[current_state]();
           SCHED_postTaskHook(current_state);
@@ -104,6 +103,7 @@ extern void SCHED_main_auto(void)
        /* if current state is active, call its handler */
        if(sched_states_activation & (1 << state_index))
        {
+          active_state = state_index;
           SCHED_actions[state_index]();
        }
    }

@@ -24,7 +24,8 @@ void sched_fast()
 
 void direct()
 {
-   delay(8192);
+   int i;
+   for(i=0;i<32;i++) printf("task #: %d\n", i);
 }
 
 int main(void)
@@ -34,10 +35,9 @@ int main(void)
    for(i=0; i<SUPER_LOOP; i++)
    {
       sched();
-      sched_fast();;
+      sched_fast();
       direct();
    }
 
    return 0;
 }
-
