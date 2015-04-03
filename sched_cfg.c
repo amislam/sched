@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-=======
-#include "stdio.h"
-#include "std_types.h"
-#include "sched.h"
-#include "sched_cfg.h"
-
-/*! Variables used for tasks duration measurements */
-#ifdef SCHED_MEASUREMENTS_ENABLED
-u16 SCHED_TaskDuration[SCHED_STATES_NUM]={0};
-u16 SCHED_preTaskTime;
-#endif
-
-/*** APPLICATION CODE EXAMPLE ***/
-
-#define FUN(current, next) void state_##current(void) {printf("Task #: %d\n", current); SCHED_ActivateTask(next); SCHED_TerminateTask(); }
-#define LAST_FUN(current)  void state_##current(void) {printf("Task #: %d\n", current); SCHED_TerminateTask(); }
->>>>>>> 1afff9df5f0683bff1dabfe010a8ec77307926c5
 
 #include "stm.h"
 #include "sched_cfg.h"

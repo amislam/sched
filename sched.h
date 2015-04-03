@@ -19,13 +19,6 @@
 
 extern int SCHED_ErrorFlag;
 
-<<<<<<< HEAD
-=======
-extern void SCHED_ActivateAllTasks (void);
-extern void SCHED_TerminateAllTasks(void);
-extern void SCHED_ActivateTask     (sched_state_T state_id);
-extern void SCHED_TerminateTask    (void);
->>>>>>> 1afff9df5f0683bff1dabfe010a8ec77307926c5
 extern bool SCHED_IsTaskActive     (sched_state_T state_id);
 extern void SCHED_ActivateTask     (sched_state_T state_id);
 extern void SCHED_TerminateTask    (void);

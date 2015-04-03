@@ -90,11 +90,7 @@ void pp(void)
 void direct()
 {
    int i;
-<<<<<<< HEAD
    for(i=0;i<32;i++) pp();
-=======
-   for(i=0;i<32;i++) printf("task #: %d\n", i);
->>>>>>> 1afff9df5f0683bff1dabfe010a8ec77307926c5
 }
 
 int main(void)
@@ -104,13 +100,10 @@ int main(void)
    for(i=0; i<SUPER_LOOP; i++)
    {
       sched();
-<<<<<<< HEAD
 //      sched_fast();
-=======
-      sched_fast();
->>>>>>> 1afff9df5f0683bff1dabfe010a8ec77307926c5
       direct();
    }
 
    return 0;
 }
+
