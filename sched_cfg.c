@@ -1,97 +1,41 @@
-#include "stdio.h"
-#include "std_types.h"
-#include "sched.h"
+
+#include "stm.h"
 #include "sched_cfg.h"
 
-/*! Variables used for tasks duration measurements */
-#ifdef SCHED_MEASUREMENTS_ENABLED
-u16 SCHED_TaskDuration[SCHED_STATES_NUM]={0};
-u16 SCHED_preTaskTime;
-#endif
-
-/*** APPLICATION CODE EXAMPLE ***/
-#define DELAY 256
-
-void delay(u32 counts)
+/*! function pointer type */
+const fpActions_T SCHED_actions[SCHED_STATES_NUM] = 
 {
-   u32 i;
-   for(i=0;i<counts;i++);
-}
-
-#define FUN(current, next) void state_##current(void) {delay(DELAY); SCHED_ActivateTask(next); SCHED_TerminateTask(current); }
-#define LAST_FUN(current)  void state_##current(void) {delay(DELAY); SCHED_TerminateTask(current); }
-
-FUN(TOTO_STATE_00, TOTO_STATE_01)
-FUN(TOTO_STATE_01, TOTO_STATE_02)
-FUN(TOTO_STATE_02, TOTO_STATE_03)
-FUN(TOTO_STATE_03, TOTO_STATE_04)
-FUN(TOTO_STATE_04, TOTO_STATE_05)
-FUN(TOTO_STATE_05, TOTO_STATE_06)
-FUN(TOTO_STATE_06, TOTO_STATE_07)
-FUN(TOTO_STATE_07, TOTO_STATE_08)
-
-FUN(TOTO_STATE_08, TOTO_STATE_09)
-FUN(TOTO_STATE_09, TOTO_STATE_10)
-FUN(TOTO_STATE_10, TOTO_STATE_11)
-FUN(TOTO_STATE_11, TOTO_STATE_12)
-FUN(TOTO_STATE_12, TOTO_STATE_13)
-FUN(TOTO_STATE_13, TOTO_STATE_14)
-FUN(TOTO_STATE_14, TOTO_STATE_15)
-FUN(TOTO_STATE_15, TOTO_STATE_16)
-
-FUN(TOTO_STATE_16, TOTO_STATE_17)
-FUN(TOTO_STATE_17, TOTO_STATE_18)
-FUN(TOTO_STATE_18, TOTO_STATE_19)
-FUN(TOTO_STATE_19, TOTO_STATE_20)
-FUN(TOTO_STATE_20, TOTO_STATE_21)
-FUN(TOTO_STATE_21, TOTO_STATE_22)
-FUN(TOTO_STATE_22, TOTO_STATE_23)
-FUN(TOTO_STATE_23, TOTO_STATE_24)
-
-FUN(TOTO_STATE_24, TOTO_STATE_25)
-FUN(TOTO_STATE_25, TOTO_STATE_26)
-FUN(TOTO_STATE_26, TOTO_STATE_27)
-FUN(TOTO_STATE_27, TOTO_STATE_28)
-FUN(TOTO_STATE_28, TOTO_STATE_29)
-FUN(TOTO_STATE_29, TOTO_STATE_30)
-FUN(TOTO_STATE_30, TOTO_STATE_31)
-LAST_FUN(TOTO_STATE_31)
-
-/*** END OF APPLICATION CODE EXAMPLE ***/
-
-/*! Array of pointer to functions associated with tasks */
-const SCHED_action_T SCHED_actions[SCHED_STATES_NUM] = 
-{
-   &state_TOTO_STATE_00,
-   &state_TOTO_STATE_01,
-   &state_TOTO_STATE_02,
-   &state_TOTO_STATE_03,
-   &state_TOTO_STATE_04,
-   &state_TOTO_STATE_05,
-   &state_TOTO_STATE_06,
-   &state_TOTO_STATE_07,
-   &state_TOTO_STATE_08,
-   &state_TOTO_STATE_09,
-   &state_TOTO_STATE_10,
-   &state_TOTO_STATE_11,
-   &state_TOTO_STATE_12,
-   &state_TOTO_STATE_13,
-   &state_TOTO_STATE_14,
-   &state_TOTO_STATE_15,
-   &state_TOTO_STATE_16,
-   &state_TOTO_STATE_17,
-   &state_TOTO_STATE_18,
-   &state_TOTO_STATE_19,
-   &state_TOTO_STATE_20,
-   &state_TOTO_STATE_21,
-   &state_TOTO_STATE_22,
-   &state_TOTO_STATE_23,
-   &state_TOTO_STATE_24,
-   &state_TOTO_STATE_25,
-   &state_TOTO_STATE_26,
-   &state_TOTO_STATE_27,
-   &state_TOTO_STATE_28,
-   &state_TOTO_STATE_29,
-   &state_TOTO_STATE_30,
-   &state_TOTO_STATE_31,
+   &STM_action_STATE_00,
+   &STM_action_STATE_01,
+   &STM_action_STATE_02,
+   &STM_action_STATE_03,
+   &STM_action_STATE_04,
+   &STM_action_STATE_05,
+   &STM_action_STATE_06,
+   &STM_action_STATE_07,
+   &STM_action_STATE_08,
+   &STM_action_STATE_09,
+   &STM_action_STATE_10,
+   &STM_action_STATE_11,
+   &STM_action_STATE_12,
+   &STM_action_STATE_13,
+   &STM_action_STATE_14,
+   &STM_action_STATE_15,
+   &STM_action_STATE_16,
+   &STM_action_STATE_17,
+   &STM_action_STATE_18,
+   &STM_action_STATE_19,
+   &STM_action_STATE_20,
+   &STM_action_STATE_21,
+   &STM_action_STATE_22,
+   &STM_action_STATE_23,
+   &STM_action_STATE_24,
+   &STM_action_STATE_25,
+   &STM_action_STATE_26,
+   &STM_action_STATE_27,
+   &STM_action_STATE_28,
+   &STM_action_STATE_29,
+   &STM_action_STATE_30,
+   &STM_action_STATE_31,
 };
+
