@@ -1,17 +1,26 @@
 /*****************************************************************************/
+<<<<<<< HEAD
 /* SCHED is a basic scheduler to distribute the load between up to 32      - */
 /* 32 actions in background task of a super load to minimize periodic        */
 /* actions jitter. It can serve as a core for a statemachine implementation. */
 /* amislam - 28 Mach 2015                                                    */
+=======
+/*! Module: SCHED                                                            */
+>>>>>>> 1afff9df5f0683bff1dabfe010a8ec77307926c5
 /*****************************************************************************/
 #include "sched.h"
 #include "sched_cfg.h"
 #include "std_types.h"
 
+<<<<<<< HEAD
 static sched_state_T active_state    = 0;
 static sched_state_T current_state   = 0;
 static sched_state_T requested_state = 0;
 int SCHED_ErrorFlag;
+=======
+static sched_state_T active_state  = 0;
+static sched_state_T current_state = 0;
+>>>>>>> 1afff9df5f0683bff1dabfe010a8ec77307926c5
 
 #if (SCHED_STATES_NUM < 9)
 typedef u8 status_word_T;
@@ -51,6 +60,7 @@ extern void SCHED_ActivateTask(sched_state_T state_id)
 
 extern void SCHED_TerminateTask(void)
 {
+<<<<<<< HEAD
    /*! SCHED_TerminateTask shall be called only from the task */
    if(active_state != current_state)
    {
@@ -62,6 +72,9 @@ extern void SCHED_TerminateTask(void)
       /*! Terminate the task by clearing its activation bit */
       sched_states_activation &= (status_word_T) (~(1 << active_state));
    }
+=======
+   sched_states_activation &= (~(1 << active_state));
+>>>>>>> 1afff9df5f0683bff1dabfe010a8ec77307926c5
 }
 
 extern bool SCHED_IsTaskActive(sched_state_T state_id)
@@ -81,17 +94,34 @@ extern bool SCHED_IsTaskActive(sched_state_T state_id)
 
 extern void SCHED_main_p(void)
 {
+<<<<<<< HEAD
    u8 index;
+=======
+   u8   index;
+   bool hit;
+>>>>>>> 1afff9df5f0683bff1dabfe010a8ec77307926c5
 
    current_state = requested_state;
 
    if(0 != (sched_states_activation & (1 << current_state)))
    {
+<<<<<<< HEAD
       /*! This is not a real preTaskHook but pre-action execution */
       SCHED_preTaskHook(current_state);
       active_state = current_state;
       requested_state = current_state;
       SCHED_actions[current_state]();
+=======
+       /* if current state is active, call its handler */
+       if(sched_states_activation & (1 << current_state))
+       {
+          active_state = current_state;
+          SCHED_preTaskHook(current_state);
+          SCHED_actions[current_state]();
+          SCHED_postTaskHook(current_state);
+          hit = 1;
+       }
+>>>>>>> 1afff9df5f0683bff1dabfe010a8ec77307926c5
 
       /*! update scheduler with the higher priority task */
       SCHED_postTaskHook(current_state);
@@ -133,9 +163,14 @@ extern void SCHED_main_q(void)
    {
        if(sched_states_activation & (1 << index))
        {
+<<<<<<< HEAD
           hit = 1;
           current_state = index;
           break;
+=======
+          active_state = state_index;
+          SCHED_actions[state_index]();
+>>>>>>> 1afff9df5f0683bff1dabfe010a8ec77307926c5
        }
    }
    if(!hit)
